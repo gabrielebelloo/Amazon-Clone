@@ -656,5 +656,15 @@ const products = [
       "apparel",
       "mens"
     ]
+  }, 
+  {
+    id: "id1",
+    image: "images/products/backpack.jpg",
+    name: "Gabriele's Backpack",
+    rating: {
+      stars: 5,
+      count: 4000
+    },
+    priceCents: 10000
   }
 ];
