@@ -1,5 +1,7 @@
 let productsHTML = '';
 
+
+
 products.forEach((product) => {
   productsHTML += `
   <div class="product-container">
@@ -79,6 +81,12 @@ document.querySelectorAll('.add-to-cart-button')
         });
       }
 
-      console.log(cart);
+      let cartQuantity = 0;
+
+      cart.forEach((item) =>{
+        cartQuantity += item.quantity;
+      });
+      
+      document.querySelector('.cart-quantity').innerHTML = cartQuantity;
     });
   });
