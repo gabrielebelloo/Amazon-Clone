@@ -209,3 +209,19 @@
   margin-top: 11px;
   margin-bottom: 15px;
 }
+
+.div-edit-quantity span, .div-edit-quantity input {
+  display: none;
+}
+
+.quantity-input {
+  width: 30px;
+}
+
+.is-editing-quantity span, .is-editing-quantity input {
+  display: initial;
+}
+
+.disappear {
+  display: none;
+}
