@@ -1,3 +1,4 @@
+// Returns the delivery option object by the ID
 export function getDeliveryOption(deliveryOptionId) {
   let deliveryOption;
 
@@ -10,6 +11,7 @@ export function getDeliveryOption(deliveryOptionId) {
   return deliveryOption;
 }
 
+// All delivery options available
 export const deliveryOptions = [{
   id: '1',
   deliveryDays: 7,
