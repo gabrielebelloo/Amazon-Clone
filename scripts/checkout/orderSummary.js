@@ -1,8 +1,9 @@
-import {cart, removeFromCart, cartQuantityCalc, saveToStorage, updateDeliveryOption} from '../../data/cart.js';
-import {products} from '../../data/products.js';
+import {cart, removeFromCart, cartQuantityCalc, saveToStorage, updateDeliveryOption, cartQuantity} from '../../data/cart.js';
+import {getProduct} from '../../data/products.js';
 import formatCurrency from '../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-import {deliveryOptions} from '../../data/deliveryOptions.js'
+import {deliveryOptions, getDeliveryOption} from '../../data/deliveryOptions.js'
+import { renderPaymentSummary } from './paymentSummary.js';
 
 
 let checkoutHTML = '';
@@ -15,31 +16,18 @@ export function renderCartSummary() {
 
   checkoutHTML = '';
   cart.forEach((cartItem) => {
-    const productId = cartItem.id;
-  
-    let matchingProduct;
-  
-    products.forEach((product) => {
-      if (product.id === productId) {
-        matchingProduct = product;
-      }
-    });
+    // Finding product between all the products
+    const matchingProduct = getProduct(cartItem.id);
 
-    const deliveryOptionId = cartItem.deliveryOptionId;
+    // Finding the delivery option between all the options
+    const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId);
 
-    let deliveryOption;
-
-    deliveryOptions.forEach((option) => {
-      if (option.id === deliveryOptionId) {
-        deliveryOption = option;
-      }
-    });
-
+    // Create delivery date string
     const today = dayjs();
     const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');
     const dateString = deliveryDate.format('dddd, MMMM D');
 
-  
+    // Generate HTML for the cart item
     checkoutHTML += `
     <div class="cart-item-container">
       <div class="delivery-date">
@@ -95,7 +83,8 @@ export function renderCartSummary() {
     link.addEventListener('click', () => {
       const productId = link.dataset.productId;
       removeFromCart(productId);
-      renderCartSummary(cart);
+      renderCartSummary();
+      renderPaymentSummary();
     });
   });
 
@@ -132,7 +121,8 @@ export function renderCartSummary() {
     element.addEventListener('click', () => {
       const {productId, deliveryOptionId} = element.dataset;
       updateDeliveryOption(productId, deliveryOptionId);
-      renderCartSummary(cart);
+      renderCartSummary();
+      renderPaymentSummary();
     });
   });
 }
@@ -197,6 +187,7 @@ function updateCartQuantity(productId) {
   });
 
   saveToStorage();
-  renderCartSummary(cart);
+  renderCartSummary();
+  renderPaymentSummary();
 }
 
