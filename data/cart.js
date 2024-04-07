@@ -1,5 +1,7 @@
 // Gets cart objects from localStorage or creates one
-export let cart = JSON.parse(localStorage.getItem('cart')) || [];
+export let cart;
+
+loadFromStorage();
 
 // Total cart quantity
 export let cartQuantity = cartQuantityCalc();
@@ -39,6 +41,10 @@ export function removeFromCart(productId) {
     }
   });
   saveToStorage();
+}
+
+export function loadFromStorage() {
+  cart = JSON.parse(localStorage.getItem('cart')) || [];
 }
 
 // Saves cart in localStorage
